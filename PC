@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pensamiento Computacional – CFE</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f5f6fa;
+  color: #1e2235;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ===== VARIABLES ===== */
+:root {
+  --u1: #00796b; --u1l: #e0f2f1; --u1d: #004d40;
+  --u2: #5c35b5; --u2l: #ede7f6; --u2d: #311b92;
+  --u3: #e65100; --u3l: #fff3e0; --u3d: #bf360c;
+  --u4: #1565c0; --u4l: #e3f2fd; --u4d: #0d47a1;
+  --dark: #1e2235;
+  --mid: #4a5568;
+  --soft: #718096;
+  --line: #e2e8f0;
+  --card: #ffffff;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* ===== PANTALLA DE INICIO ===== */
+#pantalla-inicio { display: block; }
+#pantalla-curso  { display: none; }
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, #1e2235 0%, #2d3561 60%, #1a3a5c 100%);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(92,53,181,0.25) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #a8c4e0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.hero h1 {
+  color: #fff;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  max-width: 700px;
+  position: relative;
+}
+.hero h1 span { color: #7c9fd4; }
+.hero-sub {
+  color: #8fa8c4;
+  font-size: 15px;
+  margin-top: 16px;
+  max-width: 500px;
+  position: relative;
+}
+.hero-pills {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 28px;
+  position: relative;
+}
+.pill {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #cbd5e0;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 30px;
+}
+.pill strong { color: #fff; }
+
+/* ===== UNIDADES EN HERO ===== */
+.unidades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 640px;
+  width: 100%;
+  margin-top: 40px;
+  position: relative;
+}
+.unidad-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.unidad-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 12px 12px 0 0;
+}
+.unidad-card.u1::before { background: var(--u1); }
+.unidad-card.u2::before { background: var(--u2); }
+.unidad-card.u3::before { background: var(--u3); }
+.unidad-card.u4::before { background: var(--u4); }
+.unidad-card:hover {
+  background: rgba(255,255,255,0.11);
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
+.uc-num {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; opacity: 0.6; color: #fff;
+  margin-bottom: 6px;
+}
+.uc-title { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.3; }
+.uc-weeks { color: rgba(255,255,255,0.45); font-size: 11px; margin-top: 5px; }
+
+.btn-inicio {
+  margin-top: 36px;
+  background: #fff;
+  color: #1e2235;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  letter-spacing: -0.3px;
+}
+.btn-inicio:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+/* ===== PANTALLA CURSO ===== */
+.curso-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* NAV LATERAL */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #1e2235;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-logo {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 16px;
+}
+.sidebar-logo span {
+  font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4);
+  display: block; margin-bottom: 4px;
+}
+.sidebar-logo strong { color: #fff; font-size: 14px; line-height: 1.3; display: block; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); }
+.nav-item.active { background: rgba(255,255,255,0.08); border-left-color: #7c9fd4; }
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.nav-item span { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.3; }
+.nav-item.active span { color: #fff; font-weight: 600; }
+.nav-item.nav-u1 .nav-dot { background: var(--u1); }
+.nav-item.nav-u2 .nav-dot { background: var(--u2); }
+.nav-item.nav-u3 .nav-dot { background: var(--u3); }
+.nav-item.nav-u4 .nav-dot { background: var(--u4); }
+.nav-item.nav-home .nav-dot { background: #7c9fd4; }
+.nav-section-label {
+  font-size: 9px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,0.25);
+  padding: 16px 20px 6px;
+}
+
+/* CONTENIDO PRINCIPAL */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+/* SECTIONS */
+.seccion { display: none; }
+.seccion.activa { display: block; }
+
+/* SECCIÓN BIENVENIDA */
+.bienvenida-hero {
+  background: linear-gradient(135deg, #1e2235, #2d3561);
+  padding: 56px 48px;
+  color: #fff;
+}
+.bienvenida-hero h2 {
+  font-size: 32px; font-weight: 800; letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+.bienvenida-hero p { color: #8fa8c4; font-size: 15px; max-width: 560px; }
+
+.bienvenida-body { padding: 40px 48px; }
+.info-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-bottom: 36px;
+}
+.info-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+.info-card .ico { font-size: 24px; margin-bottom: 10px; }
+.info-card .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--soft); margin-bottom: 4px; }
+.info-card .value { font-size: 15px; font-weight: 700; color: var(--dark); }
+.info-card .sub { font-size: 12px; color: var(--soft); margin-top: 2px; }
+
+.fundamento-box {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+.fundamento-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--dark); }
+.fundamento-box p { color: var(--mid); font-size: 14px; }
+
+.objetivo-box {
+  background: linear-gradient(135deg, #2d3561, #1a3a5c);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.objetivo-box h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #7c9fd4; margin-bottom: 10px; }
+.objetivo-box p { color: #c4d4e8; font-size: 14px; line-height: 1.7; }
+
+.eval-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+  margin-top: 24px;
+}
+.eval-item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.eval-item .eico { font-size: 18px; flex-shrink: 0; }
+.eval-item .etxt { font-size: 13px; color: var(--mid); line-height: 1.4; }
+.eval-item .etxt strong { color: var(--dark); display: block; margin-bottom: 2px; }
+
+/* UNIDADES */
+.u-hero {
+  padding: 48px 48px 36px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.u-hero::after {
+  content: attr(data-num);
+  position: absolute; right: 40px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 120px; font-weight: 900;
+  color: rgba(255,255,255,0.06);
+  line-height: 1; pointer-events: none;
+  letter-spacing: -4px;
+}
+.u1 .u-hero { background: linear-gradient(135deg, var(--u1d), var(--u1)); }
+.u2 .u-hero { background: linear-gradient(135deg, var(--u2d), var(--u2)); }
+.u3 .u-hero { background: linear-gradient(135deg, var(--u3d), var(--u3)); }
+.u4 .u-hero { background: linear-gradient(135deg, var(--u4d), var(--u4)); }
+
+.u-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 4px 12px;
+  margin-bottom: 12px;
+}
+.u-hero h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; max-width: 500px; line-height: 1.25; }
+.u-hero p { opacity: 0.8; font-size: 13px; margin-top: 8px; }
+
+/* CUERPO DE UNIDAD */
+.u-body { padding: 36px 48px; }
+
+.bloque {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+.bloque-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.bloque-ico {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.bloque-header h3 { font-size: 16px; font-weight: 700; color: var(--dark); }
+.bloque-header .tag-tipo {
+  margin-left: auto;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  padding: 3px 10px; border-radius: 20px;
+}
+
+.u1 .bloque-ico { background: var(--u1l); }
+.u2 .bloque-ico { background: var(--u2l); }
+.u3 .bloque-ico { background: var(--u3l); }
+.u4 .bloque-ico { background: var(--u4l); }
+
+.u1 .tag-tipo { background: var(--u1l); color: var(--u1d); }
+.u2 .tag-tipo { background: var(--u2l); color: var(--u2d); }
+.u3 .tag-tipo { background: var(--u3l); color: var(--u3d); }
+.u4 .tag-tipo { background: var(--u4l); color: var(--u4d); }
+
+/* Contenido de bloques */
+.bloque p { color: var(--mid); font-size: 14px; line-height: 1.75; margin-bottom: 12px; }
+.bloque p:last-child { margin-bottom: 0; }
+.bloque ul, .bloque ol {
+  padding-left: 20px; color: var(--mid); font-size: 14px; line-height: 1.8;
+  margin-bottom: 12px;
+}
+.bloque ul li, .bloque ol li { margin-bottom: 4px; }
+.bloque strong { color: var(--dark); }
+.bloque h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin: 16px 0 8px; }
+
+/* Citas */
+.cita {
+  border-left: 4px solid;
+  padding: 14px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.u1 .cita { border-color: var(--u1); background: var(--u1l); color: var(--u1d); }
+.u2 .cita { border-color: var(--u2); background: var(--u2l); color: var(--u2d); }
+.u3 .cita { border-color: var(--u3); background: var(--u3l); color: var(--u3d); }
+.u4 .cita { border-color: var(--u4); background: var(--u4l); color: var(--u4d); }
+.cita span { display: block; font-size: 11px; font-style: normal; font-weight: 700; margin-top: 8px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Actividades */
+.actividad {
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  border: 1px solid;
+}
+.u1 .actividad { background: #f0fdf9; border-color: #b2dfdb; }
+.u2 .actividad { background: #f5f3ff; border-color: #d1c4e9; }
+.u3 .actividad { background: #fff8f0; border-color: #ffccbc; }
+.u4 .actividad { background: #eff6ff; border-color: #bfdbfe; }
+
+.act-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.act-ico { font-size: 16px; }
+.act-label { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+.u1 .act-label { color: var(--u1); }
+.u2 .act-label { color: var(--u2); }
+.u3 .act-label { color: var(--u3); }
+.u4 .act-label { color: var(--u4); }
+
+.actividad h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+.actividad p, .actividad ul { font-size: 13px; color: var(--mid); line-height: 1.7; }
+.actividad ul { padding-left: 18px; }
+.actividad ul li { margin-bottom: 4px; }
+
+/* Recursos */
+.recurso-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+.recurso {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--mid);
+}
+.recurso .rico { font-size: 18px; flex-shrink: 0; }
+.recurso strong { display: block; color: var(--dark); margin-bottom: 2px; font-size: 13px; }
+
+/* Evaluación de unidad */
+.eval-unidad {
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-top: 8px;
+}
+.u1 .eval-unidad { background: var(--u1l); border: 1px solid #b2dfdb; }
+.u2 .eval-unidad { background: var(--u2l); border: 1px solid #d1c4e9; }
+.u3 .eval-unidad { background: var(--u3l); border: 1px solid #ffccbc; }
+.u4 .eval-unidad { background: var(--u4l); border: 1px solid #bfdbfe; }
+.eval-unidad h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+.eval-unidad ul { padding-left: 18px; font-size: 13px; color: var(--mid); line-height: 1.8; }
+
+/* Chips de contenidos */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 600;
+  border: 1px solid;
+}
+.u1 .chip { background: var(--u1l); color: var(--u1d); border-color: #b2dfdb; }
+.u2 .chip { background: var(--u2l); color: var(--u2d); border-color: #d1c4e9; }
+.u3 .chip { background: var(--u3l); color: var(--u3d); border-color: #ffccbc; }
+.u4 .chip { background: var(--u4l); color: var(--u4d); border-color: #bfdbfe; }
+
+/* Nav inferior */
+.nav-inferior {
+  display: flex; justify-content: space-between;
+  padding: 20px 48px;
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
+}
+.nav-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  cursor: pointer;
+  font-size: 13px; font-weight: 600; color: var(--mid);
+  transition: all 0.15s;
+}
+.nav-btn:hover { background: var(--dark); color: #fff; border-color: var(--dark); }
+.nav-btn.primary {
+  background: var(--dark); color: #fff; border-color: var(--dark);
+}
+.nav-btn.primary:hover { opacity: 0.85; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .unidades-grid { grid-template-columns: 1fr; }
+  .bienvenida-hero, .u-body, .bienvenida-body { padding: 28px 20px; }
+  .u-hero { padding: 32px 20px; }
+  .info-grid { grid-template-columns: 1fr; }
+  .eval-grid { grid-template-columns: 1fr; }
+  .recurso-grid { grid-template-columns: 1fr; }
+  .nav-inferior { padding: 16px 20px; }
+  .u-hero::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PANTALLA DE INICIO
+     ============================================================ -->
+<div id="pantalla-inicio">
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-tag">CFE · Formación Docente</div>
+    <h1>Pensamiento<br><span>Computacional</span></h1>
+    <p class="hero-sub">Profesorado de Educación Media y Magisterio · Trayecto Lenguajes Diversos</p>
+    <div class="hero-pills">
+      <span class="pill">📅 <strong>13 jul – 30 oct</strong></span>
+      <span class="pill">⏱ <strong>6 hs</strong> semanales</span>
+      <span class="pill">🗂 <strong>4 unidades</strong></span>
+      <span class="pill">📍 <strong>Uruguay</strong></span>
+    </div>
+    <div class="unidades-grid">
+      <div class="unidad-card u1" onclick="irA('u1')">
+        <div class="uc-num">Unidad 1</div>
+        <div class="uc-title">Fundamentos del Pensamiento Computacional</div>
+        <div class="uc-weeks">Semanas 1 – 4</div>
+      </div>
+      <div class="unidad-card u2" onclick="irA('u2')">
+        <div class="uc-num">Unidad 2</div>
+        <div class="uc-title">Resolución de Problemas y Desafíos Bebras</div>
+        <div class="uc-weeks">Semanas 5 – 8</div>
+      </div>
+      <div class="unidad-card u3" onclick="irA('u3')">
+        <div class="uc-num">Unidad 3</div>
+        <div class="uc-title">Programación como otra Lengua</div>
+        <div class="uc-weeks">Semanas 9 – 13</div>
+      </div>
+      <div class="unidad-card u4" onclick="irA('u4')">
+        <div class="uc-num">Unidad 4</div>
+        <div class="uc-title">Ciudadanía Digital e Inteligencia Artificial</div>
+        <div class="uc-weeks">Semanas 14 – 16</div>
+      </div>
+    </div>
+    <button class="btn-inicio" onclick="irA('bienvenida')">Entrar al curso →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PANTALLA DEL CURSO
+     ============================================================ -->
+<div id="pantalla-curso">
+  <div class="curso-layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <span>CFE · 2025</span>
+        <strong>Pensamiento Computacional</strong>
+      </div>
+      <div class="nav-section-label">General</div>
+      <div class="nav-item nav-home active" onclick="irA('bienvenida')">
+        <div class="nav-dot"></div>
+        <span>Presentación del curso</span>
+      </div>
+      <div class="nav-section-label">Unidades</div>
+      <div class="nav-item nav-u1" onclick="irA('u1')">
+        <div class="nav-dot"></div>
+        <span>U1 · Fundamentos del PC</span>
+      </div>
+      <div class="nav-item nav-u2" onclick="irA('u2')">
+        <div class="nav-dot"></div>
+        <span>U2 · Resolución y Bebras</span>
+      </div>
+      <div class="nav-item nav-u3" onclick="irA('u3')">
+        <div class="nav-dot"></div>
+        <span>U3 · Programación</span>
+      </div>
+      <div class="nav-item nav-u4" onclick="irA('u4')">
+        <div class="nav-dot"></div>
+        <span>U4 · Ciudadanía e IA</span>
+      </div>
+    </nav>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+      <!-- ===== BIENVENIDA ===== -->
+      <section id="sec-bienvenida" class="seccion activa">
+        <div class="bienvenida-hero">
+          <h2>Bienvenidos al curso 👋</h2>
+          <p>Este espacio está pensado para futuros docentes que quieren integrar el Pensamiento Computacional en sus prácticas pedagógicas de forma crítica, creativa y fundamentada.</p>
+        </div>
+        <div class="bienvenida-body">
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="ico">📅</div>
+              <div class="label">Período</div>
+              <div class="value">13 jul – 30 oct</div>
+              <div class="sub">Semestre 2025</div>
+            </div>
+            <div class="info-card">
+              <div class="ico">⏱</div>
+              <div class="label">Carga horaria</div>
+              <div class="value">6 horas semanales</div>
+              <div class="sub">16 semanas</div>
+            </div>
+            <div class="info-card">
+              <div class="ico">🎓</div>
+              <div class="label">Carreras</div>
+              <div class="value">Prof. Ed. Media</div>
+              <div class="sub">y Magisterio</div>
+            </div>
+          </div>
+
+          <div class="fundamento-box">
+            <h3>📌 Fundamentación</h3>
+            <p>La unidad curricular promueve el desarrollo del <strong>Pensamiento Computacional</strong> como una forma de abordar problemas, analizar situaciones y diseñar soluciones en contextos educativos. Se articula con las Ciencias de la Computación, la programación, la ciudadanía digital y la Inteligencia Artificial.</p>
+            <p>El curso favorece la formación de futuros docentes capaces de integrar estas perspectivas en sus prácticas pedagógicas, comprendiendo que enseñar a pensar computacionalmente no es enseñar a usar computadoras, sino desarrollar una forma de resolver problemas con sentido.</p>
+          </div>
+
+          <div class="objetivo-box">
+            <h3>🎯 Objetivo general</h3>
+            <p>Comprender y aplicar los fundamentos del Pensamiento Computacional, desarrollando propuestas didácticas que integren la resolución de problemas, la programación, la ciudadanía digital y la reflexión crítica sobre las tecnologías.</p>
+          </div>
+
+          <div class="fundamento-box">
+            <h3>📝 Instrumentos de evaluación</h3>
+            <div class="eval-grid">
+              <div class="eval-item">
+                <span class="eico">📓</span>
+                <div class="etxt"><strong>Portafolio reflexivo</strong>Registro continuo del proceso de aprendizaje a lo largo del semestre.</div>
+              </div>
+              <div class="eval-item">
+                <span class="eico">🧩</span>
+                <div class="etxt"><strong>Análisis de desafíos Bebras</strong>Primer trabajo evaluativo con análisis didáctico.</div>
+              </div>
+              <div class="eval-item">
+                <span class="eico">💻</span>
+                <div class="etxt"><strong>Proyecto en Scratch</strong>Diseño de una propuesta educativa digital con programación.</div>
+              </div>
+              <div class="eval-item">
+                <span class="eico">🗣</span>
+                <div class="etxt"><strong>Presentaciones orales</strong>Comunicación y defensa de los proyectos desarrollados.</div>
+              </div>
+              <div class="eval-item">
+                <span class="eico">🏁</span>
+                <div class="etxt"><strong>Trabajo final integrador</strong>Proyecto que articula contenidos de todo el semestre.</div>
+              </div>
+              <div class="eval-item">
+                <span class="eico">✏️</span>
+                <div class="etxt"><strong>Diseño de actividades</strong>Propuestas didácticas originales para distintos niveles.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-inferior">
+            <button class="nav-btn" onclick="volverInicio()">← Inicio</button>
+            <button class="nav-btn primary" onclick="irA('u1')">Comenzar: Unidad 1 →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== UNIDAD 1 ===== -->
+      <section id="sec-u1" class="seccion u1">
+        <div class="u-hero" data-num="01">
+          <div class="u-tag">Unidad 1 · Semanas 1 a 4</div>
+          <h2>Fundamentos del Pensamiento Computacional</h2>
+          <p>Wing · Bers · Papert · Furman · Ciudadanía digital · Brechas digitales</p>
+        </div>
+        <div class="u-body">
+
+          <div class="chips">
+            <span class="chip">Conceptualización</span>
+            <span class="chip">Análisis de textos</span>
+            <span class="chip">Ciudadanía digital</span>
+            <span class="chip">Brechas digitales</span>
+            <span class="chip">Portafolio</span>
+          </div>
+
+          <!-- BLOQUE TEORÍA 1 -->
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">💡</div>
+              <h3>¿Qué es el Pensamiento Computacional?</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <p>El <strong>Pensamiento Computacional (PC)</strong> es una forma de resolver problemas que toma prestadas las estrategias de la ciencia de la computación y las aplica a cualquier campo del saber. No se trata de saber programar, sino de pensar de una manera determinada.</p>
+            <p>Jeannette Wing (2006) fue quien popularizó el término al definirlo como un conjunto de procesos de pensamiento involucrados en la formulación de problemas y sus soluciones, de tal modo que las soluciones puedan ser ejecutadas por un agente de procesamiento de información.</p>
+            <div class="cita">
+              "El pensamiento computacional implica resolver problemas, diseñar sistemas y comprender el comportamiento humano, haciendo uso de los conceptos fundamentales de la informática."
+              <span>— Jeannette Wing, 2006</span>
+            </div>
+            <h4>Los cuatro pilares del PC</h4>
+            <ul>
+              <li><strong>Descomposición:</strong> dividir un problema complejo en partes más pequeñas y manejables.</li>
+              <li><strong>Reconocimiento de patrones:</strong> identificar similitudes o regularidades entre problemas.</li>
+              <li><strong>Abstracción:</strong> enfocarse en la información esencial, ignorando los detalles irrelevantes.</li>
+              <li><strong>Diseño de algoritmos:</strong> desarrollar una solución paso a paso que pueda ser replicada.</li>
+            </ul>
+          </div>
+
+          <!-- BLOQUE TEORÍA 2 -->
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">📚</div>
+              <h3>Aportes de las y los referentes</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <h4>Seymour Papert y el construccionismo</h4>
+            <p>Papert fue pionero al vincular el aprendizaje con la construcción: aprendemos mejor cuando creamos algo compartible. Inventó el lenguaje Logo y demostró que los niños podían aprender matemáticas y lógica programando tortugas. Su legado es central para entender la programación como herramienta educativa, no como fin en sí misma.</p>
+            <h4>Marina Bers y la codificación como juego</h4>
+            <p>Bers, desde el MIT Media Lab, desarrolló el enfoque <em>Coding as a Playground</em> (2017): la programación en la infancia debe ser lúdica, creativa y con sentido propio. Propone que los niños no son solo usuarios de tecnología sino creadores, y que esa agencia transforma su relación con el mundo digital.</p>
+            <div class="cita">
+              "Cuando los niños aprenden a programar, también aprenden a pensar de manera creativa, a razonar sistemáticamente y a trabajar de manera colaborativa."
+              <span>— Marina Bers, Coding as a Playground (2017)</span>
+            </div>
+            <h4>Melina Furman y la enseñanza de las ciencias</h4>
+            <p>Furman (2021) en <em>Enseñar Distinto</em> plantea que la escuela debe desarrollar el pensamiento científico como parte de la formación ciudadana. Sus aportes sobre preguntas productivas, indagación y evaluación formativa son directamente aplicables al diseño de propuestas con PC.</p>
+          </div>
+
+          <!-- BLOQUE ACTIVIDAD 1 -->
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">✏️</div>
+              <h3>Actividades de la unidad</h3>
+              <span class="tag-tipo">Actividades</span>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">📖</span>
+                <span class="act-label">Actividad 1 · Lectura y análisis</span>
+              </div>
+              <h4>Lectura del texto de Wing (2006)</h4>
+              <p>Lean el artículo "Computational Thinking" de Jeannette Wing (2006) y respondan en su portafolio:</p>
+              <ul>
+                <li>¿Qué entiende Wing por Pensamiento Computacional? ¿Coincidís con su definición?</li>
+                <li>¿Qué ejemplos del artículo les resultaron más cercanos a su futura práctica docente?</li>
+                <li>¿Creen que el PC es solo para quienes enseñan Informática? Fundamenten.</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🗺</span>
+                <span class="act-label">Actividad 2 · Producción grupal</span>
+              </div>
+              <h4>Mapa conceptual del Pensamiento Computacional</h4>
+              <p>En grupos de 3 o 4 personas, construyan un mapa conceptual que integre los aportes de Wing, Bers, Papert y Furman. El mapa debe mostrar:</p>
+              <ul>
+                <li>Los conceptos centrales del PC y sus relaciones.</li>
+                <li>Al menos un ejemplo educativo concreto por pilar (descomposición, patrones, abstracción, algoritmos).</li>
+                <li>Un cuestionamiento o tensión que les genere el tema.</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🌐</span>
+                <span class="act-label">Actividad 3 · Debate</span>
+              </div>
+              <h4>Ciudadanía digital y brechas en Uruguay</h4>
+              <p>A partir de los datos del Plan Ceibal y otros recursos, discutan en clase:</p>
+              <ul>
+                <li>¿Qué es ser ciudadano/a digital hoy? ¿Cuáles son los derechos y responsabilidades?</li>
+                <li>¿Qué brechas digitales existen en Uruguay? ¿Son solo de acceso o también de uso significativo?</li>
+                <li>¿Cómo puede la escuela contribuir a reducir esas brechas?</li>
+              </ul>
+              <p>Registren las principales conclusiones en el portafolio grupal.</p>
+            </div>
+
+            <div class="eval-unidad">
+              <h4>📋 Evaluación de la unidad</h4>
+              <ul>
+                <li><strong>Portafolio · Entrada Nº1:</strong> "¿Qué es el PC para mí?" — reflexión personal de una carilla sobre cómo entendés el Pensamiento Computacional al terminar esta unidad y qué cambió respecto a lo que pensabas al inicio.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- RECURSOS -->
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🔗</div>
+              <h3>Recursos recomendados</h3>
+              <span class="tag-tipo">Recursos</span>
+            </div>
+            <div class="recurso-grid">
+              <div class="recurso">
+                <span class="rico">📄</span>
+                <div><strong>Wing (2006)</strong>Artículo original "Computational Thinking" — Communications of the ACM</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">📕</span>
+                <div><strong>Bers (2017)</strong>Coding as a Playground — Routledge</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">📗</span>
+                <div><strong>Furman (2021)</strong>Enseñar Distinto — Siglo XXI Editores</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>Ceibal (2022)</strong>Recursos de Pensamiento Computacional — ceibal.edu.uy</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-inferior">
+            <button class="nav-btn" onclick="irA('bienvenida')">← Presentación</button>
+            <button class="nav-btn primary" onclick="irA('u2')">Unidad 2 →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== UNIDAD 2 ===== -->
+      <section id="sec-u2" class="seccion u2">
+        <div class="u-hero" data-num="02">
+          <div class="u-tag">Unidad 2 · Semanas 5 a 8</div>
+          <h2>Resolución de Problemas y Desafíos Bebras</h2>
+          <p>Descomposición · Patrones · Abstracción · Algoritmos · Metacognición</p>
+        </div>
+        <div class="u-body">
+
+          <div class="chips">
+            <span class="chip">Descomposición</span>
+            <span class="chip">Abstracción</span>
+            <span class="chip">Patrones</span>
+            <span class="chip">Bebras</span>
+            <span class="chip">Metacognición</span>
+            <span class="chip">Rúbricas</span>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🧩</div>
+              <h3>¿Qué es Bebras y cómo se usa en el aula?</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <p><strong>Bebras</strong> es un concurso internacional de Pensamiento Computacional presente en más de 60 países. Sus desafíos están diseñados para trabajar los cuatro pilares del PC de manera lúdica, sin requerir experiencia previa en programación.</p>
+            <p>Cada desafío Bebras presenta una situación-problema con información visual o narrativa, y requiere que quien lo resuelve use estrategias computacionales para encontrar una respuesta. Lo valioso no está solo en la respuesta correcta, sino en el proceso de resolución.</p>
+            <h4>¿Por qué usar Bebras en formación docente?</h4>
+            <ul>
+              <li>Permiten <strong>vivenciar</strong> el PC desde adentro antes de enseñarlo.</li>
+              <li>Facilitan el análisis didáctico: ¿qué pilar de PC pone en juego este desafío?</li>
+              <li>Son adaptables a distintos niveles educativos y áreas curriculares.</li>
+              <li>Promueven la metacognición: reflexionar sobre cómo se resolvió, no solo qué se resolvió.</li>
+            </ul>
+            <div class="cita">
+              "El pensamiento visible no es solo mostrar lo que se piensa, sino crear culturas de aula donde pensar sea valorado, visible y activamente promovido."
+              <span>— Ron Ritchhart, Making Thinking Visible</span>
+            </div>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🔍</div>
+              <h3>Cómo identificar el PC en un desafío</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <p>Cuando analizamos un desafío Bebras desde el rol docente, debemos preguntarnos:</p>
+            <ul>
+              <li>¿Qué información hay que <strong>descomponer</strong> para entender el problema?</li>
+              <li>¿Hay <strong>patrones</strong> que se repiten o regularidades que facilitan la resolución?</li>
+              <li>¿Qué datos son <strong>relevantes</strong> y cuáles son detalles que se pueden ignorar (abstracción)?</li>
+              <li>¿Se puede describir la solución como una secuencia de pasos (algoritmo)?</li>
+            </ul>
+            <p>Esta mirada analítica es la que luego les va a permitir <strong>diseñar o seleccionar actividades</strong> para sus propios estudiantes con intención didáctica clara.</p>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">✏️</div>
+              <h3>Actividades de la unidad</h3>
+              <span class="tag-tipo">Actividades</span>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🧩</span>
+                <span class="act-label">Actividad 1 · Individual</span>
+              </div>
+              <h4>Resolución individual de desafíos Bebras</h4>
+              <p>Ingresen a la plataforma Bebras y resuelvan al menos 4 desafíos de distintos niveles. Para cada uno, registren en su portafolio:</p>
+              <ul>
+                <li>¿Cuál fue su primer instinto de resolución?</li>
+                <li>¿Qué estrategia terminaron usando?</li>
+                <li>¿Qué pilar del PC pusieron en juego principalmente?</li>
+                <li>¿Dónde se trabaron? ¿Cómo lo resolvieron?</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">👥</span>
+                <span class="act-label">Actividad 2 · Grupal</span>
+              </div>
+              <h4>Comparación de caminos de resolución</h4>
+              <p>Elijan un mismo desafío Bebras en grupos de 3. Cada persona lo resuelve por separado, documenta su proceso, y luego comparten:</p>
+              <ul>
+                <li>¿Llegaron todos al mismo resultado? ¿Por caminos distintos?</li>
+                <li>¿Qué dice eso sobre la naturaleza del PC?</li>
+                <li>¿Cuál de los caminos sería más fácil de explicar a un estudiante? ¿Por qué?</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🏫</span>
+                <span class="act-label">Actividad 3 · Diseño didáctico</span>
+              </div>
+              <h4>Adaptación de un desafío para el aula</h4>
+              <p>Elijan un desafío Bebras y adáptenlo para usarlo con estudiantes de Primaria o de Educación Media (según su carrera). La adaptación debe incluir:</p>
+              <ul>
+                <li>Versión simplificada o modificada del desafío original.</li>
+                <li>Consigna clara para los estudiantes.</li>
+                <li>Orientaciones para el docente: qué pilares del PC trabaja, qué preguntas disparadoras usar.</li>
+                <li>Una rúbrica sencilla para evaluar la actividad.</li>
+              </ul>
+            </div>
+
+            <div class="eval-unidad">
+              <h4>📋 Trabajo evaluativo Nº1</h4>
+              <ul>
+                <li><strong>Análisis didáctico de un desafío Bebras:</strong> Seleccionen un desafío, resuélvanlo y presenten un análisis escrito (1-2 páginas) que incluya: resolución comentada, identificación de pilares del PC, propuesta de uso en el aula con rúbrica, y reflexión sobre qué aprendieron sobre el PC haciendo este análisis.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🔗</div>
+              <h3>Recursos recomendados</h3>
+              <span class="tag-tipo">Recursos</span>
+            </div>
+            <div class="recurso-grid">
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>Bebras Internacional</strong>bebras.org — desafíos por nivel y categoría</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>Bebras Uruguay</strong>Plataforma local con desafíos adaptados al contexto</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">📄</span>
+                <div><strong>Making Thinking Visible</strong>Ritchhart, Church y Morrison — rutinas de pensamiento</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">📗</span>
+                <div><strong>Ceibal PC</strong>Recursos de Pensamiento Computacional desenchufado</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-inferior">
+            <button class="nav-btn" onclick="irA('u1')">← Unidad 1</button>
+            <button class="nav-btn primary" onclick="irA('u3')">Unidad 3 →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== UNIDAD 3 ===== -->
+      <section id="sec-u3" class="seccion u3">
+        <div class="u-hero" data-num="03">
+          <div class="u-tag">Unidad 3 · Semanas 9 a 13</div>
+          <h2>Programación como otra Lengua</h2>
+          <p>Scratch · Secuencias · Eventos · Condicionales · Variables · Proyectos educativos</p>
+        </div>
+        <div class="u-body">
+
+          <div class="chips">
+            <span class="chip">Scratch</span>
+            <span class="chip">Secuencias</span>
+            <span class="chip">Condicionales</span>
+            <span class="chip">Repeticiones</span>
+            <span class="chip">Variables</span>
+            <span class="chip">Usar-Modificar-Crear</span>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">💬</div>
+              <h3>La programación como lenguaje</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <p>Decir que la programación es "otra lengua" no es una metáfora decorativa: implica reconocer que programar es una forma de <strong>expresarse, comunicarse y construir significados</strong>. Así como el lenguaje verbal permite narrar, argumentar y poetizar, el lenguaje de programación permite modelar, automatizar y crear.</p>
+            <p>Esta perspectiva cambia la pregunta pedagógica: no se trata de "¿cómo enseño a programar?" sino de "¿qué pueden <strong>decir y crear</strong> mis estudiantes cuando programan?"</p>
+            <h4>La metodología Usar–Modificar–Crear</h4>
+            <p>Esta secuencia progresiva es una de las más efectivas para introducir la programación:</p>
+            <ul>
+              <li><strong>Usar:</strong> explorar un proyecto ya hecho. Entender qué hace, cómo reacciona.</li>
+              <li><strong>Modificar:</strong> cambiar algún elemento del proyecto existente. Añadir un personaje, cambiar un sonido, alterar una condición.</li>
+              <li><strong>Crear:</strong> diseñar un proyecto propio con una intención comunicativa o educativa definida.</li>
+            </ul>
+            <div class="cita">
+              "Scratch no es solo un lenguaje de programación, es un medio de expresión que permite a los jóvenes compartir sus ideas interactivas en la Web."
+              <span>— Scratch al Sur (2019)</span>
+            </div>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🟧</div>
+              <h3>Conceptos clave de Scratch</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <h4>Secuencias y eventos</h4>
+            <p>Un <strong>algoritmo</strong> en Scratch es una secuencia de bloques que se ejecuta en orden. Los <strong>eventos</strong> son los disparadores: "al presionar bandera verde", "al presionar tecla", "al hacer clic". Entender la relación entre evento y secuencia es el primer gran paso.</p>
+            <h4>Condicionales</h4>
+            <p>Los bloques <em>si… entonces</em> y <em>si… entonces… si no</em> permiten que el programa tome <strong>decisiones</strong> según lo que ocurre. Esto conecta directamente con el pilar de la abstracción: ¿qué condiciones son relevantes para este problema?</p>
+            <h4>Repeticiones</h4>
+            <p>Los bucles (<em>repetir N veces</em>, <em>por siempre</em>, <em>repetir hasta que</em>) son uno de los conceptos más poderosos de la programación. Permiten hacer mucho con poco código y modelan situaciones cíclicas de la realidad.</p>
+            <h4>Variables</h4>
+            <p>Una variable es un espacio donde se guarda información que puede cambiar. En Scratch, las variables permiten llevar puntajes, contar intentos, guardar respuestas del usuario. Son el puente entre el programa y el estado del mundo que representa.</p>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">✏️</div>
+              <h3>Actividades de la unidad</h3>
+              <span class="tag-tipo">Actividades</span>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🖱</span>
+                <span class="act-label">Actividad 1 · Exploración</span>
+              </div>
+              <h4>Usar: explorar proyectos de Scratch</h4>
+              <p>Ingresen a scratch.mit.edu y exploren proyectos de la comunidad, especialmente aquellos con uso educativo. Para cada proyecto que exploren, registren:</p>
+              <ul>
+                <li>¿Qué hace el proyecto? ¿A quién está dirigido?</li>
+                <li>¿Qué bloques aparecen? ¿Cuál sería el bloque más importante?</li>
+                <li>¿Qué idea de "enseñanza" transmite? ¿Están de acuerdo con ella?</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🔧</span>
+                <span class="act-label">Actividad 2 · Modificación (parejas)</span>
+              </div>
+              <h4>Modificar: transformar un proyecto existente</h4>
+              <p>En parejas, elijan un proyecto educativo de Scratch y modifíquenlo significativamente. La modificación debe:</p>
+              <ul>
+                <li>Cambiar al menos 3 elementos (personaje, fondo, lógica, diálogos, condiciones).</li>
+                <li>Estar orientada a un área curricular de su interés (Matemática, Lengua, Ciencias, etc.).</li>
+                <li>Incluir al menos un condicional y una repetición.</li>
+              </ul>
+              <p>Documenten el proceso: capturas del antes y el después, y una reflexión breve sobre qué aprendieron modificando.</p>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🚀</span>
+                <span class="act-label">Actividad 3 · Creación (proyecto final)</span>
+              </div>
+              <h4>Crear: proyecto educativo digital en Scratch</h4>
+              <p>Diseñen y programen un proyecto educativo en Scratch orientado a estudiantes de Primaria o Educación Media. El proyecto debe:</p>
+              <ul>
+                <li>Tener una intención didáctica clara: ¿qué aprende quien lo usa?</li>
+                <li>Usar al menos: secuencias, un evento, un condicional, una repetición y una variable.</li>
+                <li>Ser navegable e intuitivo para sus destinatarios.</li>
+                <li>Incluir una guía docente (en documento aparte): propósito, nivel, contenidos, cómo integrarlo en clase.</li>
+              </ul>
+            </div>
+
+            <div class="eval-unidad">
+              <h4>📋 Evaluación de la unidad</h4>
+              <ul>
+                <li><strong>Proyecto educativo en Scratch:</strong> presentación del proyecto al grupo, explicando las decisiones didácticas y técnicas tomadas. Evaluación con rúbrica que contempla: funcionamiento, intención educativa, complejidad técnica, presentación oral.</li>
+                <li><strong>Portafolio · Entrada Nº2:</strong> reflexión sobre qué significa "enseñar con programación" y qué cambió en tu mirada sobre Scratch al terminar esta unidad.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🔗</div>
+              <h3>Recursos recomendados</h3>
+              <span class="tag-tipo">Recursos</span>
+            </div>
+            <div class="recurso-grid">
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>Scratch</strong>scratch.mit.edu — plataforma de programación</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">📗</span>
+                <div><strong>Scratch al Sur (2019)</strong>Guía latinoamericana de uso educativo de Scratch</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>ScratchEd</strong>scratched.gse.harvard.edu — recursos para docentes</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🎬</span>
+                <div><strong>Tutoriales Scratch</strong>Guías oficiales en español de la MIT Media Lab</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-inferior">
+            <button class="nav-btn" onclick="irA('u2')">← Unidad 2</button>
+            <button class="nav-btn primary" onclick="irA('u4')">Unidad 4 →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== UNIDAD 4 ===== -->
+      <section id="sec-u4" class="seccion u4">
+        <div class="u-hero" data-num="04">
+          <div class="u-tag">Unidad 4 · Semanas 14 a 16</div>
+          <h2>Ciudadanía Digital e Inteligencia Artificial</h2>
+          <p>Algoritmos · Decisiones · Sesgos · Ética · IA en educación · Trabajo integrador</p>
+        </div>
+        <div class="u-body">
+
+          <div class="chips">
+            <span class="chip">Ciudadanía digital</span>
+            <span class="chip">IA y educación</span>
+            <span class="chip">Sesgos algorítmicos</span>
+            <span class="chip">Ética tecnológica</span>
+            <span class="chip">Trabajo final</span>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🤖</div>
+              <h3>Algoritmos que toman decisiones</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <p>Los algoritmos ya no solo están en los programas que nosotros ejecutamos: <strong>están tomando decisiones sobre nosotros</strong>. Los sistemas de recomendación de plataformas digitales, los filtros de crédito, los algoritmos de contratación y hasta los sistemas de evaluación educativa funcionan con lógica computacional que tiene consecuencias reales en la vida de las personas.</p>
+            <p>Como futuros docentes, es clave entender que enseñar PC no es solo enseñar a programar: es también <strong>desarrollar una mirada crítica</strong> sobre los sistemas que organizan el mundo digital en que vivimos.</p>
+            <h4>¿Qué es un sesgo algorítmico?</h4>
+            <p>Un sesgo algorítmico ocurre cuando un sistema automatizado produce resultados sistemáticamente injustos o discriminatorios. Esto puede suceder porque:</p>
+            <ul>
+              <li>Los datos con que se entrenó el sistema reflejan desigualdades históricas.</li>
+              <li>Las categorías usadas para clasificar a las personas son arbitrarias o culturalmente sesgadas.</li>
+              <li>Los criterios de "éxito" o "eficiencia" del sistema priorizan ciertos grupos sobre otros.</li>
+            </ul>
+            <div class="cita">
+              "Los algoritmos no son neutrales. Reflejan las decisiones de quienes los diseñan, los datos con que se entrenan y los valores que priorizan."
+              <span>— Kate Crawford, Atlas of AI (2021)</span>
+            </div>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🧠</div>
+              <h3>Inteligencia Artificial en educación</h3>
+              <span class="tag-tipo">Teoría</span>
+            </div>
+            <p>La IA está ingresando a la educación de múltiples formas: plataformas de aprendizaje adaptativo, asistentes de escritura, sistemas de corrección automática, herramientas de detección de plagio y generadores de contenido. Esto plantea preguntas que los docentes necesitamos hacernos:</p>
+            <ul>
+              <li>¿Qué datos sobre los estudiantes recopilan estas herramientas y con qué fin?</li>
+              <li>¿Qué competencias reemplaza la IA y cuáles vuelve más valiosas?</li>
+              <li>¿Cómo enseñamos a usar IA de forma ética, crítica y creativa?</li>
+              <li>¿Qué pasa con quienes no tienen acceso a estas herramientas?</li>
+            </ul>
+            <p>No se trata de estar a favor o en contra de la IA, sino de <strong>entenderla suficientemente bien como para tomar decisiones pedagógicas fundamentadas</strong>.</p>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">✏️</div>
+              <h3>Actividades de la unidad</h3>
+              <span class="tag-tipo">Actividades</span>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🔎</span>
+                <span class="act-label">Actividad 1 · Análisis de caso</span>
+              </div>
+              <h4>Algoritmos que deciden: análisis crítico</h4>
+              <p>Investiguen un caso real de uso de algoritmos con consecuencias sociales (pueden ser sugeridos por la docente o buscados en grupos). Analicen:</p>
+              <ul>
+                <li>¿Qué problema intenta resolver el algoritmo?</li>
+                <li>¿Qué datos usa? ¿Quién los recopiló y con qué criterios?</li>
+                <li>¿Qué consecuencias tuvo su uso? ¿Para quiénes?</li>
+                <li>¿Cómo lo trabajarían con sus futuros estudiantes?</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">💬</span>
+                <span class="act-label">Actividad 2 · Taller</span>
+              </div>
+              <h4>Ciudadanía digital crítica en el aula</h4>
+              <p>En grupos, diseñen una propuesta de actividad de ciudadanía digital para sus futuros estudiantes. La propuesta debe:</p>
+              <ul>
+                <li>Estar contextualizada en Uruguay y en el nivel educativo de su carrera.</li>
+                <li>Abordar al menos uno de estos temas: privacidad, derechos digitales, desinformación, huella digital, sesgos en IA.</li>
+                <li>Usar metodología activa (debate, análisis de caso, juego de roles, etc.).</li>
+                <li>Incluir criterios de evaluación claros.</li>
+              </ul>
+            </div>
+
+            <div class="actividad">
+              <div class="act-header">
+                <span class="act-ico">🏁</span>
+                <span class="act-label">Trabajo final integrador</span>
+              </div>
+              <h4>Propuesta didáctica integradora</h4>
+              <p>El trabajo final del curso consiste en diseñar una <strong>secuencia didáctica completa</strong> que integre al menos tres de los cuatro ejes trabajados en el semestre (Fundamentos del PC, Resolución de problemas, Programación, Ciudadanía digital/IA).</p>
+              <p>La propuesta debe incluir:</p>
+              <ul>
+                <li><strong>Contexto:</strong> nivel, área curricular, cantidad de clases.</li>
+                <li><strong>Fundamentación:</strong> por qué este tema, qué aportes teóricos la sostienen.</li>
+                <li><strong>Secuencia de actividades:</strong> descripción detallada de cada momento.</li>
+                <li><strong>Recursos:</strong> qué materiales o herramientas se usan y por qué.</li>
+                <li><strong>Evaluación:</strong> cómo se evalúa y con qué criterios.</li>
+                <li><strong>Reflexión docente:</strong> qué aprendiste vos durante el proceso de diseño.</li>
+              </ul>
+              <p>La presentación oral es parte de la evaluación: cada grupo tiene 15 minutos para presentar y defender sus elecciones pedagógicas.</p>
+            </div>
+
+            <div class="eval-unidad">
+              <h4>📋 Evaluación final</h4>
+              <ul>
+                <li><strong>Trabajo final integrador:</strong> secuencia didáctica escrita + presentación oral (15 min).</li>
+                <li><strong>Portafolio completo:</strong> entrega del portafolio reflexivo con todas las entradas del semestre.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bloque">
+            <div class="bloque-header">
+              <div class="bloque-ico">🔗</div>
+              <h3>Recursos recomendados</h3>
+              <span class="tag-tipo">Recursos</span>
+            </div>
+            <div class="recurso-grid">
+              <div class="recurso">
+                <span class="rico">📕</span>
+                <div><strong>Atlas of AI – Kate Crawford (2021)</strong>Análisis crítico de la inteligencia artificial</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>AI for Education</strong>aiforeducation.io — recursos para docentes</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>Common Sense Media</strong>Recursos de ciudadanía digital para aulas</div>
+              </div>
+              <div class="recurso">
+                <span class="rico">🌐</span>
+                <div><strong>Ceibal – IA</strong>Recursos de IA educativa del Plan Ceibal Uruguay</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-inferior">
+            <button class="nav-btn" onclick="irA('u3')">← Unidad 3</button>
+            <button class="nav-btn primary" onclick="volverInicio()">↩ Volver al inicio</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+const secciones = ['bienvenida', 'u1', 'u2', 'u3', 'u4'];
+
+function irA(id) {
+  // Mostrar pantalla curso
+  document.getElementById('pantalla-inicio').style.display = 'none';
+  document.getElementById('pantalla-curso').style.display = 'block';
+
+  // Ocultar todas las secciones
+  secciones.forEach(s => {
+    document.getElementById('sec-' + s).classList.remove('activa');
+  });
+
+  // Mostrar sección elegida
+  document.getElementById('sec-' + id).classList.add('activa');
+
+  // Actualizar nav
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const navMap = {
+    'bienvenida': 'nav-home',
+    'u1': 'nav-u1',
+    'u2': 'nav-u2',
+    'u3': 'nav-u3',
+    'u4': 'nav-u4'
+  };
+  document.querySelectorAll('.' + navMap[id]).forEach(el => el.classList.add('active'));
+
+  // Scroll arriba
+  window.scrollTo(0, 0);
+  document.querySelector('.main-content') && (document.querySelector('.main-content').scrollTop = 0);
+}
+
+function volverInicio() {
+  document.getElementById('pantalla-inicio').style.display = 'block';
+  document.getElementById('pantalla-curso').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
