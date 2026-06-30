@@ -451,9 +451,13 @@ body {
   border: 1px solid var(--line);
   font-size: 13px;
   color: var(--mid);
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
 }
+.recurso:hover { background: #f1f5f9; border-color: var(--soft); }
 .recurso .rico { font-size: 18px; flex-shrink: 0; }
 .recurso strong { display: block; color: var(--dark); margin-bottom: 2px; font-size: 13px; }
+.recurso .rurl { font-size: 11px; color: #94a3b8; margin-top: 2px; word-break: break-all; }
 
 /* Evaluación de unidad */
 .eval-unidad {
@@ -911,22 +915,22 @@ body {
               <span class="tag-tipo">Recursos</span>
             </div>
             <div class="recurso-grid">
-              <div class="recurso">
+              <a class="recurso" href="https://www.cs.cmu.edu/~CompThink/papers/Wing06.pdf" target="_blank" rel="noopener">
                 <span class="rico">📄</span>
-                <div><strong>Wing (2006)</strong>Artículo original "Computational Thinking" — Communications of the ACM</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Wing (2006) — Computational Thinking</strong>Artículo original en PDF<div class="rurl">cs.cmu.edu</div></div>
+              </a>
+              <a class="recurso" href="https://www.routledge.com/Coding-as-a-Playground-Programming-and-Computational-Thinking-in-the-Early-Childhood-Classroom/Bers/p/book/9781032148046" target="_blank" rel="noopener">
                 <span class="rico">📕</span>
-                <div><strong>Bers (2017)</strong>Coding as a Playground — Routledge</div>
-              </div>
-              <div class="recurso">
-                <span class="rico">📗</span>
-                <div><strong>Furman (2021)</strong>Enseñar Distinto — Siglo XXI Editores</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Bers (2017) — Coding as a Playground</strong>Ficha del libro en Routledge<div class="rurl">routledge.com</div></div>
+              </a>
+              <a class="recurso" href="https://pensamientocomputacional.ceibal.edu.uy/" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>Ceibal (2022)</strong>Recursos de Pensamiento Computacional — ceibal.edu.uy</div>
-              </div>
+                <div><strong>Ceibal — Pensamiento Computacional e IA</strong>Programa y recursos oficiales<div class="rurl">pensamientocomputacional.ceibal.edu.uy</div></div>
+              </a>
+              <a class="recurso" href="https://rea.ceibal.edu.uy/categoria/pensamiento-computacional" target="_blank" rel="noopener">
+                <span class="rico">📚</span>
+                <div><strong>REA — Recursos educativos abiertos</strong>Recursos de PC por tramo escolar<div class="rurl">rea.ceibal.edu.uy</div></div>
+              </a>
             </div>
           </div>
 
@@ -1091,22 +1095,22 @@ body {
               <span class="tag-tipo">Recursos</span>
             </div>
             <div class="recurso-grid">
-              <div class="recurso">
+              <a class="recurso" href="https://www.bebras.org/" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>Bebras Internacional</strong>bebras.org — desafíos por nivel y categoría</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Bebras Internacional</strong>Organización oficial del desafío<div class="rurl">bebras.org</div></div>
+              </a>
+              <a class="recurso" href="https://pensamientocomputacional.ceibal.edu.uy/bebras-recursos/" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>Bebras Uruguay</strong>Plataforma local con desafíos adaptados al contexto</div>
-              </div>
-              <div class="recurso">
-                <span class="rico">📄</span>
-                <div><strong>Making Thinking Visible</strong>Ritchhart, Church y Morrison — rutinas de pensamiento</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Bebras Uruguay — Recursos</strong>Tarjetas de desafíos y guía para docentes<div class="rurl">pensamientocomputacional.ceibal.edu.uy</div></div>
+              </a>
+              <a class="recurso" href="https://pensamientocomputacional.ceibal.edu.uy/bebras-ejercicios/" target="_blank" rel="noopener">
+                <span class="rico">🧩</span>
+                <div><strong>Bebras — Ejercicios de práctica</strong>Desafíos para resolver antes de la prueba<div class="rurl">pensamientocomputacional.ceibal.edu.uy</div></div>
+              </a>
+              <a class="recurso" href="https://pensamientocomputacional.ceibal.edu.uy/recursos/" target="_blank" rel="noopener">
                 <span class="rico">📗</span>
-                <div><strong>Ceibal PC</strong>Recursos de Pensamiento Computacional desenchufado</div>
-              </div>
+                <div><strong>Ceibal — Marco Referencial de PC</strong>Documentos y estudios sobre PC en Uruguay<div class="rurl">pensamientocomputacional.ceibal.edu.uy</div></div>
+              </a>
             </div>
           </div>
 
@@ -1277,22 +1281,22 @@ body {
               <span class="tag-tipo">Recursos</span>
             </div>
             <div class="recurso-grid">
-              <div class="recurso">
+              <a class="recurso" href="https://scratch.mit.edu/" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>Scratch</strong>scratch.mit.edu — plataforma de programación</div>
-              </div>
-              <div class="recurso">
-                <span class="rico">📗</span>
-                <div><strong>Scratch al Sur (2019)</strong>Guía latinoamericana de uso educativo de Scratch</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Scratch</strong>Plataforma oficial de programación por bloques<div class="rurl">scratch.mit.edu</div></div>
+              </a>
+              <a class="recurso" href="https://scratched.gse.harvard.edu/guide/" target="_blank" rel="noopener">
+                <span class="rico">📘</span>
+                <div><strong>Creative Computing Curriculum</strong>Guía de Harvard para introducir Scratch<div class="rurl">scratched.gse.harvard.edu</div></div>
+              </a>
+              <a class="recurso" href="https://scratched.gse.harvard.edu/index.html" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>ScratchEd</strong>scratched.gse.harvard.edu — recursos para docentes</div>
-              </div>
-              <div class="recurso">
-                <span class="rico">🎬</span>
-                <div><strong>Tutoriales Scratch</strong>Guías oficiales en español de la MIT Media Lab</div>
-              </div>
+                <div><strong>ScratchEd (archivo)</strong>Recursos y comunidad histórica de docentes<div class="rurl">scratched.gse.harvard.edu</div></div>
+              </a>
+              <a class="recurso" href="https://pensamientocomputacional.ceibal.edu.uy/formacion/" target="_blank" rel="noopener">
+                <span class="rico">🎓</span>
+                <div><strong>Ceibal — Cursos de formación</strong>Formación en programación e IA para docentes<div class="rurl">pensamientocomputacional.ceibal.edu.uy</div></div>
+              </a>
             </div>
           </div>
 
@@ -1473,22 +1477,22 @@ body {
               <span class="tag-tipo">Recursos</span>
             </div>
             <div class="recurso-grid">
-              <div class="recurso">
-                <span class="rico">📕</span>
-                <div><strong>Atlas of AI – Kate Crawford (2021)</strong>Análisis crítico de la inteligencia artificial</div>
-              </div>
-              <div class="recurso">
+              <a class="recurso" href="https://www.commonsense.org/education/digital-citizenship" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>AI for Education</strong>aiforeducation.io — recursos para docentes</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Common Sense Education</strong>Currículum de ciudadanía digital K-12<div class="rurl">commonsense.org</div></div>
+              </a>
+              <a class="recurso" href="https://ceibal.edu.uy/plataformas-y-programas/pensamiento-computacional-e-ia/" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>Common Sense Media</strong>Recursos de ciudadanía digital para aulas</div>
-              </div>
-              <div class="recurso">
+                <div><strong>Ceibal — PC e Inteligencia Artificial</strong>Programa, talleres y recursos de IA en el aula<div class="rurl">ceibal.edu.uy</div></div>
+              </a>
+              <a class="recurso" href="https://pensamientocomputacional.ceibal.edu.uy/inteligencia-artificial/" target="_blank" rel="noopener">
+                <span class="rico">🤖</span>
+                <div><strong>Ceibal — Inteligencia Artificial</strong>Propuestas pedagógicas y alfabetización en IA<div class="rurl">pensamientocomputacional.ceibal.edu.uy</div></div>
+              </a>
+              <a class="recurso" href="https://ceibal.edu.uy/plataformas-y-programas/pensamiento-computacional-e-ia/bebras/" target="_blank" rel="noopener">
                 <span class="rico">🌐</span>
-                <div><strong>Ceibal – IA</strong>Recursos de IA educativa del Plan Ceibal Uruguay</div>
-              </div>
+                <div><strong>Ceibal — Bebras Uruguay</strong>Información institucional y novedades<div class="rurl">ceibal.edu.uy</div></div>
+              </a>
             </div>
           </div>
 
